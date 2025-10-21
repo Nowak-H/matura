@@ -1,0 +1,14 @@
+from random import randint
+
+x = []
+inp = int(input())
+od = int(input())
+do = int(input())
+i = 0
+while i < inp:
+    x.append(randint(od,do))
+    i += 1
+print(x)
+
+liczby podzielne przez 5 = []
+i = 0
