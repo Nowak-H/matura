@@ -1,0 +1,151 @@
+from random import randint
+import os
+import time
+# hp atak mana gold
+hero = [200,20,100,100]
+
+while hero[0] > 0:
+    # generujemy przeciwnika z losowymi statami
+    enemy = [randint(10,100), randint(10,30), randint(10,100), randint(10,100)]
+    print("""\ta - idz do lasu \n \tb - idz do miasta""")
+    print(f"\thero: hp: {hero[0]} atak: {hero[1]} mana: {hero[2]} gold: {hero[3]}")
+    print("==="*10)
+    inp = input("co robisz: ").lower()
+
+    if inp == "a":
+        print("\t\tWALAKA !!!")
+        print("W lesie slychac krzyki, liście szeleścią, a coś czai się w cieniu...")
+        time.sleep(1)
+        print("Przeciwnik nadchodzi powoli, jego kroki są ciężkie.")
+        time.sleep(1)
+        #walka
+        while True:
+            if hero[0] < 0:
+                print("UMARLES")
+                break
+            if enemy[0] < 0:
+                print(f"WOW! Zloto! {enemy[3]}")
+                hero[3] += enemy[3]
+                print("Zbierasz zloto i przeszukujesz ciało przeciwnika... Nic wiecej nie znajdujesz.")
+                time.sleep(1)
+                break
+
+            # opis przeciwnika
+            print(f"\tMonster hp {enemy[0]} at {enemy[1]}")
+            if enemy[1] > 25:
+                print("To silny przeciwnik, jego ataki moga bolec.")
+            elif enemy[1] > 15:
+                print("Przeciwnik wyglada na doswiadczonego wojownika.")
+            else:
+                print("To slabawy mobek, powinienes sobie poradzic.")
+
+            print(f"\tHero: hp: {hero[0]} atak: {hero[1]}")
+            print("\ta - atak \nz - zaklecia")
+            inp = input("co robisz: ").lower()
+
+            if inp == "a":
+                print("Zamachujesz sie i uderzasz przeciwnika!")
+                hero[0] -= enemy[1]
+                enemy[0] -= hero[1]
+                print(f"Zadales {hero[1]} obrazen. Otrzymales {enemy[1]} obrazen.")
+            elif inp == "z":
+                # gracz nie zna zaklec
+                print("Ohh zapomniales ze nie znasz jeszcze zaklęć!")
+                print("Próbujesz cos wykrzyczec, ale to za malo.")
+                hero[0] -= enemy[1]
+                print(f"Przeciwnik trafia cie za {enemy[1]} hp.")
+            else:
+                print("Ehhh stoisz w szoku i nic nie robisz... Ahhh...")
+                hero[0] -= enemy[1]
+                print(f"Przeciwnik wykorzystuje twoje zawahanie i zadaje {enemy[1]} obrazen.")
+
+            # czyszczenie ekranu
+            time.sleep(1)
+            os.system('cls')
+
+        # po walce
+        print("Oddech. Wracasz do glownej scenerii.")
+        time.sleep(1)
+
+    elif inp == "b":
+        # miasto
+        print("Wchodzisz do miasta. Ulice sa ruchliwe, kramy zamkniete, a wiatr niesie zapach przypraw.")
+        time.sleep(1)
+        print("Masz chwile na odpoczynek i obserwacje. Nic tu nie mozna kupic jeszcze.")
+        time.sleep(1)
+        print("Ludzie mijaja cie z lekkimi usmiechami. Stoisz przy studni i patrzysz w dal.")
+        time.sleep(1)
+        print("W miasteczku mozna sie tylko rozejrzec. Moze kiedys cos tu powstanie...")
+        print("\ta - wejdz w podejrzany zaulek \n\tb - idz dalej uliczka")
+        choice = input("co robisz: ").lower()
+
+        if choice == "a":
+            print("Wchodzisz w cienisty zaułek. Cos tu nie gra...")
+            time.sleep(1)
+            # wydarzenie: walka albo pulapka
+            wydarzenie = randint(1,2)  # 1 = walka, 2 = pulapka
+            if wydarzenie == 1:
+                print("To zasadzka! Przeciwnik skacze z cienia!")
+                #nowy przeciwnik
+                enemy = [randint(10,80), randint(10,25), randint(10,100), randint(5,80)]
+                #walka
+                while True:
+                    if hero[0] < 0:
+                        print("UMARLES")
+                        break
+                    if enemy[0] < 0:
+                        print(f"WOW! Zloto! {enemy[3]}")
+                        hero[3] += enemy[3]
+                        print("Szybko przeszukujesz zasadzke i zabierasz co sie da.")
+                        time.sleep(1)
+                        break
+
+                    print(f"\tMonster hp {enemy[0]} at {enemy[1]}")
+                    print(f"\tHero: hp: {hero[0]} atak: {hero[1]}")
+                    print("\ta - atak \nz - zaklecia")
+                    inp = input("co robisz: ").lower()
+
+                    if inp == "a":
+                        hero[0] -= enemy[1]
+                        enemy[0] -= hero[1]
+                    elif inp == "z":
+                        print("Ohh zapomniales ze nie znasz jeszcze zaklęć!")
+                        hero[0] -= enemy[1]
+                    else:
+                        print("Zamierasz przez chwile i nic nie robisz...")
+                        hero[0] -= enemy[1]
+
+                    time.sleep(1)
+                    os.system('cls')
+
+                print("Po tym zdarzeniu wracasz na glowna ulice miasta.")
+                time.sleep(1)
+
+            else:
+                # pulapka z 40% szansy ucieczki
+                print("To pulapka! Siatka opada i zrzuca cie do podziemia.")
+                time.sleep(1)
+                _ = input("Nacisnij Enter, by sprobowac uciec...")
+                if randint(1,100) <= 40:
+                    print("Udalo ci sie uciec z pulapki! Wspinaczka byla trudna, ale sie udalo.")
+                    time.sleep(1)
+                else:
+                    #otrzymujesz obrazenia
+                    obrazenia = randint(5,30)
+                    hero[0] -= obrazenia
+                    print(f"Nie udalo sie. Otrzymujesz {obrazenia} obrazen i musisz sie pozbierac.")
+                    time.sleep(1)
+
+        else:
+            print("Idziesz dalej uliczka, nic sie nie dzieje. Wracasz do glownej drogi.")
+            input("Nacisnij Enter, by wrocic do drogi...")
+
+    else:
+        print("Siedzi bezczynie w swiecie Isekai! Cogratulations!")
+        print("Dni mijaja, a ty nadal zastanawiasz sie co dalej.")
+
+    #przerwa
+    time.sleep(3)
+    os.system('cls')
+    def funkcja():
+        pass
